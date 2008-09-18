@@ -1,5 +1,7 @@
 TODO:
 
+- write configuration file notes to miau.texi also
+
 - forwardmsg when detached/attached/always
 
 - delayed onconnect, e.g. "send this five seconds after logging in"
