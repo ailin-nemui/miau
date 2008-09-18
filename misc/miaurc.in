@@ -5,22 +5,37 @@
 
 # About structure of this configuration file:
 #
+# - Empty lines and characters after '#' (hash) are ignored.
+#
 # - All parameters are written inside quotes (for example, "foobar")
 #
 # - Options are defined like: option = "parameter1"[:"parameter2"] ...
 #
-# - When entering multiparameter options, certain parameters have default
+# - When entering multi-parameter options, certain parameters have default
 #   values and can be left out.
 #
-# - When entering multiparameter options and, for example, user doesn't want
+# - When entering multi-parameter options and, for example, user doesn't want
 #   to set parameter2 at all but he needs to set parameter3, parameter2 can
 #   be skipped with column (':') like: "parameter1"::"parameter3".
 #
-# - Empty lines and characters after '#' (hash) are ignored.
+# - When entering multi-selection options (aka option blocks) such as
+#   nicknames, you'll have split it on at least three lines. The first line
+#   opens the block, following lines each define at most one options, and
+#   the last line closes the block. Here's an example.
+#
+#	nicknames = {		# open the block
+#		"mynick"	# first option
+#		"backupnick"	# second option
+#	}			# close the block
+#
+# - If you get unexplained errors for lines that look perfectly ok, check
+#   lines above it. An open block will cause a lot of errors later on.
 #
 # - When setting permissions, switched etc. (switches (booleans) are described
 #   as "state"), everything beginning with "t", "r" and "1" are concidered as
 #   "true" or "yes" (positive). Everything else is "false" or "no" (negative).
+#
+# - If in doubt, uncomment and edit given examples.
 
 
 
