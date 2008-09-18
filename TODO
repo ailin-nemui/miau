@@ -1,5 +1,7 @@
 TODO:
 
+- forwardmsg when detached/attached/always
+
 - delayed onconnect, e.g. "send this five seconds after logging in"
 
 - quicklog should use ignores
