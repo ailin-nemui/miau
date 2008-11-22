@@ -990,6 +990,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 					break;
 				}
 				channel = strtok(t + 1, " ");
+printf("-- channel: %s\n", channel);
 				chptr = channel_find(channel, LIST_ACTIVE);
 #ifdef AUTOMODE
 				if (chptr == NULL || chptr->oper != -1) {
@@ -1062,10 +1063,12 @@ server_reply(const int command, char *original, char *origin, char *param1,
 
 		/* Someone chaning nick. */
 		case CMD_NICK + MINCOMMANDVALUE:
+			{
+			char *new_nick = param1 + (*param1 == ':' ? 1 : 0);
 			/* Is that us who changed nick ? */
 			if (xstrcasecmp(status.nickname, nick) == 0) {
 				xfree(status.nickname);
-				status.nickname = xstrdup(param1 + 1);
+				status.nickname = xstrdup(new_nick);
 
 				if (xstrcasecmp(status.nickname,
 						(char *) nicknames.nicks.head->data) == 0) {
@@ -1080,8 +1083,9 @@ server_reply(const int command, char *original, char *origin, char *param1,
 #ifdef CHANLOG
 			chanlog_write_entry_all(LOG_NICK, LOGM_NICK,
 					get_short_localtime(),
-					nick, param1 + 1);
+					nick, new_nick);
 #endif /* ifdef CHANLOG */
+			}
 			break;
 
 		/* Ping ?  Pong. */
@@ -1142,7 +1146,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 
 		/* Someone joining. */
 		case CMD_JOIN + MINCOMMANDVALUE:
-			n = (param1[0] == ':' ? 1 : 0);
+			n = (param1[0] == ':' ? 1 : 0); // FIXME: make it pretty
 			/* Was that me ? */
 			if (xstrcasecmp(status.nickname, nick) == 0) {
 				/* Add channel to active list. */
