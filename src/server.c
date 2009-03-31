@@ -990,7 +990,6 @@ server_reply(const int command, char *original, char *origin, char *param1,
 					break;
 				}
 				channel = strtok(t + 1, " ");
-printf("-- channel: %s\n", channel);
 				chptr = channel_find(channel, LIST_ACTIVE);
 #ifdef AUTOMODE
 				if (chptr == NULL || chptr->oper != -1) {
