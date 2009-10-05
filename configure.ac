@@ -119,7 +119,13 @@ if test "$ac_local" = yes; then
 else
 	datadir="$datadir/doc/miau/examples"
 fi
-AC_SUBST([ac_local bindir sbindir datadir infodir mandir exampledir])
+AC_SUBST([ac_local])
+AC_SUBST([bindir])
+AC_SUBST([sbindir])
+AC_SUBST([datadir])
+AC_SUBST([infodir])
+AC_SUBST([mandir])
+AC_SUBST([exampledir])
 
 if test "x$GCC" = "xyes"; then
 	CFLAGS="${CFLAGS} -Wall"
