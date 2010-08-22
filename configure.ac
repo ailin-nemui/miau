@@ -1,9 +1,9 @@
-AC_INIT([miau], [0.6.6-pre1])
+AC_INIT([miau], [0.6.6-pre])
 AC_CONFIG_SRCDIR([src/miau.c])
 AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AH_TEMPLATE([VERSIONNAME], [long version name])
-AC_DEFINE([VERSIONNAME], ["Fixed"])
+AC_DEFINE([VERSIONNAME], ["Scratching post"])
 
 
 # option, explanation, define
