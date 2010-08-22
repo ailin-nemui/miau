@@ -281,12 +281,26 @@ qlog_add_timestamp(qlogentry *entry, char *buf, size_t size)
 		return entry->text;
 	}
 
+	/*
+	 * p now points to command. The next parameter is target, which can be
+	 * either channel or user. Since channel name may contain a colon (':'),
+	 * we need to skip it (and the command).
+	 */
+	p = nextword(p);
+	if (p == NULL) {
+		return entry->text;
+	}
+	p = nextword(p);
+	if (p == NULL) {
+		return entry->text;
+	}
+
 	switch (cfg.timestamp) {
 		case TS_BEGINNING:
 		{
 			char rep;
 
-			p = strchr(entry->text + 1, (int) ':');
+			p = strchr(p, (int) ':');
 			if (p != NULL) {
 				if (p[1] == '\0') {
 					p = NULL;

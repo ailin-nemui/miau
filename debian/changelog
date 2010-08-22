@@ -2,6 +2,8 @@ miau (0.6.6) unstable; urgency=low
 
   * Fixed RPL_TOPICWHO syntax. Oops.
   * Fixed memory leak with channel keys.
+  * Fixed qlog timestamps with lines with unresolved IPv6 addresses and
+    channels with colons. [SF bug: 1941043]
   * Fixed chanlog/privlog with user's ACTION when DCC-bouncing is compiled in.
   * Fixed handling of NICK commands on servers running InspIRCD.
   * Cleaned up source.
