@@ -119,7 +119,7 @@ add_server(const char *name, int port, const char *pass, int timeout)
 
 /*
  * Remove quotes around *data.
- * 
+ *
  * Return pointer to trimmed string or NULL if there are no quotes.
  */
 char *
@@ -147,7 +147,7 @@ trim(char *data, const int mode)
 {
 	int	inside = 0;
 	char	*ptr;
-	
+
 	/* Skip whitespaces (minus linefeeds, they cannot exist). */
 	while (*data == ' ' || *data == '\t') { data++; }
 
@@ -172,7 +172,7 @@ trim(char *data, const int mode)
 		*ptr = '\0';
 		ptr--;
 	}
-	
+
 	return data;
 } /* char *trim(char *data, const int mode) */
 
@@ -192,7 +192,7 @@ assign_int(int *target, const char *data, const int min)
 			parse_error();
 			return;
 		}
-		
+
 		if (n < min) { n = min; }
 	}
 
@@ -289,12 +289,12 @@ parse_param(char *data)
 		parse_error();
 		return;
 	}
-	
+
 	val = trim(t + 1, SPACES);
 	if (*val == '{') {
 		/* Not expecting any other data. */
 		if (val[1] != '\0') { parse_error(); }
-		
+
 		/* Resolve list-id. */
 		if (xstrcmp(data, "nicknames") == 0) {		/* nicknames */
 			listid = CFG_NICKNAMES;
@@ -494,7 +494,7 @@ parse_list_line(char *data)
 	int		n;
 	int		eol = 0;
 	int		ok = 0;
-	
+
 	int		inside = 0;		/* Inside quotes. */
 	char		*ptr;
 	char		*par;
@@ -519,12 +519,12 @@ parse_list_line(char *data)
 	}
 
 	/* Read parameters. */
-	
+
 	/* We can't use strtok(), because it eats subsequent delimeters. */
 	param = (char **) xmalloc((sizeof(char *)) * MAXNUMOFPARAMS);
 	ptr = data;
 	par = ptr;
-	
+
 	/* Initially set all parameters to NULL. */
 	for (n = 0; n < MAXNUMOFPARAMS; n++) {
 		param[n] = NULL;
@@ -559,7 +559,7 @@ parse_list_line(char *data)
 				}
 				par++;
 				par[strlen(par) - 1] = '\0';
-			
+
 				/* Ok, got our parameter. */
 				param[paramcount] = xstrdup(par);
 			}
@@ -567,7 +567,7 @@ parse_list_line(char *data)
 			par = ptr + 1;
 			inside = 0;
 		}
-		
+
 		ptr++;
 	} while (eol == 0);
 	/* If still inside quotes, the line was bad. */
@@ -587,12 +587,12 @@ parse_list_line(char *data)
 			if (paramcount != 1) {
 				break;
 			}
-			
+
 			llist_add_tail(llist_create(xstrdup(param[0])),
 					&nicknames.nicks);
 			ok = 1;
 			break;
-			
+
 		case CFG_SERVERS:
 			if (paramcount > 4) {
 				break;
@@ -606,7 +606,7 @@ parse_list_line(char *data)
 				ok = 1;
 			}
 			break;
-			
+
 		case CFG_CONNHOSTS:
 			if (paramcount > 2) {
 				break;
@@ -614,7 +614,7 @@ parse_list_line(char *data)
 			permlist = &connhostlist;
 			ok = 1;
 			break;
-			
+
 		case CFG_IGNORE:
 			if (paramcount > 2) {
 				break;
@@ -622,7 +622,7 @@ parse_list_line(char *data)
 			permlist = &ignorelist;
 			ok = 1;
 			break;
-			
+
 #ifdef AUTOMODE
 		case CFG_AUTOMODELIST:
 			if (paramcount > 2 || param[0][1] != ':') {
@@ -632,7 +632,7 @@ parse_list_line(char *data)
 			ok = 1;
 			break;
 #endif /* ifdef AUTOMODE */
-			
+
 #ifdef CHANLOG
 		case CFG_CHANLOG:
 			if (paramcount < 2 || paramcount > 3) {
@@ -701,7 +701,7 @@ parse_list_line(char *data)
 			if (paramcount > 2) {
 				break;
 			}
-			
+
 			/* CFG_CHANNELS only has effect at start up. */
 			if (virgin == 1) {
 				channel_type *channel;
@@ -784,7 +784,7 @@ parse_cfg(const char *cfgfile)
 {
 	FILE		*file;
 	int		filelen;
-	
+
 	char		*buf;
 	char		*bufptr;
 	char		*nextptr;
@@ -802,7 +802,7 @@ parse_cfg(const char *cfgfile)
 	filelen = (int) fread(buf, 1, READBUFSIZE - 2, file);
 	buf[filelen] = '\n';
 	buf[filelen + 1] = '\0';
-	
+
 	bufptr = buf;
 	nextptr = strchr(buf, '\n');
 	while (nextptr >= bufptr) {

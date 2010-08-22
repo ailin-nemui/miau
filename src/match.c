@@ -47,7 +47,7 @@ match(const char *string, const char *pattern)
 
 	str = xstrdup(string);
 	upcase(str);
-	
+
 	pat = xstrdup(pattern);
 	upcase(pat);
 
@@ -112,7 +112,7 @@ match_replace(const char *string, const char *pattern, const char *foo,
 	int foo_len_real;
 	int at;
 	int ret;
-	
+
 	/* Nothing to replace? Don't waste time here. */
 	if (foo == NULL || replace == NULL) {
 		return match(string, pattern);
@@ -128,7 +128,7 @@ match_replace(const char *string, const char *pattern, const char *foo,
 			break;
 		}
 	}
-	
+
 	/* No "foo" found. */
 	if (at == -1) {
 		return match(string, pattern);

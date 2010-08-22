@@ -96,9 +96,9 @@ command_find(char *p)
 {
 	struct commandhash	*ptr;
 	int			cmdindex;
-	
+
 	cmdindex = command_hash(p);
-	
+
 	for (ptr = cmd_hash[cmdindex]; ptr; ptr = ptr->next) {
 		if (xstrcasecmp(p, ptr->cmd) == 0) {
 			return ptr->cmdvalue;
@@ -158,7 +158,7 @@ command_setup(void)
 	for (i = 0; i < MAX_CMD; i++) {
 		cmd_hash[i] = NULL;
 	}
-	
+
 	for (i = 0; cmd_add_table[i].cmd; i++) {
 		command_add(cmd_add_table[i].cmd, cmd_add_table[i].mask);
 	}

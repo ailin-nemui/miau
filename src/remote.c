@@ -46,7 +46,7 @@ remote_cmd(const char *command, const char *params, const char *nick)
 	int	i = 0;
 	int	pass = 1;
 
-	
+
 	/* We know there's at least one word, so no need to check this. */
 	p = strtok(splitted, " ");
 	do {
@@ -60,7 +60,7 @@ remote_cmd(const char *command, const char *params, const char *nick)
 		param[i] = NULL;
 		i++;
 	}
-	
+
 	/*
 	 * Because we don't know what features are compiled in, we can't use
 	 * "else if" at all.
@@ -79,7 +79,7 @@ remote_cmd(const char *command, const char *params, const char *nick)
 		}
 	}
 #endif /* ifdef RELEASENICK */
-	
+
 	/* Free parameter-list. */
 	xfree(param);
 	xfree(splitted);

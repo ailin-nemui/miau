@@ -75,7 +75,7 @@ llist_add_tail(llist_node *node, llist_list *list)
 {
 	node->next = NULL;
 	node->prev = list->tail;
-  
+
 	if (list->head == NULL) {
 		list->head = node;
 	} else if (list->tail != NULL) {
@@ -134,7 +134,7 @@ llist_find(void *data, llist_list *list)
 			return ptr;
 		}
 	}
-	
+
 	return NULL;
 } /* llist_node *llist_find(void *data, llist_list *list) */
 

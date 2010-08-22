@@ -77,7 +77,7 @@ server_drop(char *reason)
 
 	/* As we're no longer connected to server, send queue is useless. */
 	irc_clear_queue();
-	
+
 	if (c_server.socket) {
 		char buf[IRC_MSGLEN];
 		int r;
@@ -88,7 +88,7 @@ server_drop(char *reason)
 		irc_write_real(&c_server, buf);
 #ifdef CHANLOG
 		chanlog_write_entry_all(LOG_QUIT, LOGM_QUIT,
-				get_short_localtime(), status.nickname, 
+				get_short_localtime(), status.nickname,
 				reason, "", "");
 #endif /* ifdef CHANLOG */
 		sock_close(&c_server);
@@ -213,7 +213,7 @@ server_set_fallback(const llist_node *safenode)
 	/* Copy current values to fallback server. */
 	fallback->name = xstrdup(safe->name);
 	fallback->port = safe->port;
-	fallback->password = (safe->password != NULL) ? 
+	fallback->password = (safe->password != NULL) ?
 		xstrdup(safe->password) : NULL;
 	fallback->working = 1;
 	fallback->timeout = safe->timeout;
@@ -291,7 +291,7 @@ server_change(int next, int disable)
 		} while (! ((server_type *) i_server.current->data)->working &&
 				i_server.current != i);
 	}
-	
+
 	if (((server_type *) i_server.current->data)->working == 0) {
 		if (cfg.nevergiveup == 1) {
 			report(MIAU_OUTOFSERVERSNEVER);
@@ -383,17 +383,17 @@ parse_msg_me_ctcp(const char *origin, const char *nick, const char *hostname,
 			&& c_clients.connected == 0
 			&& status.allowreply == 1) {
 		report(CLNT_CTCP, param2 + 1, origin);
-		
+
 		if (xstrcmp(param2 + 2, "VERSION\1") == 0) {
 			irc_notice(&c_server, nick, VERSIONREPLY);
 		}
-		
+
 		else if (xstrcmp(param2 + 2, "PING") == 0) {
 			if (strlen(param2 + 1) > 6) {
 				irc_notice(&c_server, nick, "%s", param2 + 1);
 			}
 		}
-		
+
 		else if (xstrcmp(param2 + 2, "CLIENTINFO\1") == 0) {
 			irc_notice(&c_server, nick, CLIENTINFOREPLY);
 		}
@@ -426,7 +426,7 @@ parse_msg_me(const char *origin, const char *nick, const char *hostname,
 	if ((c_clients.connected == 0 && (cfg.privlog & 0x01))
 			|| (c_clients.connected > 0 && (cfg.privlog & 0x02))) {
 		privlog_write(nick, PRIVLOG_IN, cmdindex, param2 + 1);
-	}	
+	}
 #endif /* ifdef PRIVLOG */
 
 	/* Is this a special (CTCP/DCC) -message ? */
@@ -443,7 +443,7 @@ parse_msg_me(const char *origin, const char *nick, const char *hostname,
 		int passlen;
 		char *lparam;
 		lparam = xstrdup(param2 + 2);
-		
+
 		passlen = pos(lparam, ' ');
 		if (passlen != -1) {
 			lparam[passlen] = '\0';
@@ -642,12 +642,12 @@ server_read(void)
 	if (c_server.buffer[0] == '\0') {
 		return 0;
 	}
-	
+
 	/* new data... go for it ! */
 	pass = 1;
 
 	backup = xstrdup(c_server.buffer);
-		
+
 	if (c_server.buffer[0] == ':') {
 		/* reply */
 		origin = strtok(c_server.buffer + 1, " ");
@@ -670,12 +670,12 @@ server_read(void)
 					param1, param2, &pass);
 		}
 	}
-			
+
 	else {
 		/* Command */
 		command = strtok(c_server.buffer, " ");
 		param1 = strtok(NULL, "\0");
-				
+
 		if (command) {
 			server_commands(command, param1, &pass);
 		}
@@ -692,7 +692,7 @@ server_read(void)
 	}
 
 	xfree(backup);
-	
+
 	return 0;
 } /* int server_read(void) */
 
@@ -701,7 +701,7 @@ server_read(void)
 
 /*
  * Check number of servers and consistency of i_server.currect.
- * 
+ *
  * If there are only fallback-server (or no servers at all !?) left,
  * warn the user about this. Also, if the server we're connected to is on the
  * list, set i_server.current to index of it.
@@ -710,11 +710,11 @@ void
 server_check_list(void)
 {
 	llist_node	*ptr;
-	
+
 	if (servers.amount <= 1) {
 		/* There are no other servers ! */
 		/* This is important ! */
-		irc_mwrite(&c_clients, ":miau NOTICE %s :%s", 
+		irc_mwrite(&c_clients, ":miau NOTICE %s :%s",
 				status.nickname,
 				CLNT_NOSERVERS);
 		/* Don't try to reconnect. */
@@ -766,7 +766,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 
 	switch (command) {
 		/* Replies. */
-	
+
 		/* Just signed in to server. */
 		case RPL_WELCOME:
 			i_server.connected++;
@@ -821,7 +821,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 						status.nickname,
 						cfg.usermode);
 			}
-			/* 
+			/*
 			 * Be default we're not away, but set_away() may
 			 * change this.
 			 */
@@ -859,7 +859,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				newserv_disconn = NEWSERV_DISCONN_ALWAYS;
 			}
 			break;
-		
+
 		/* Supported features */
 		case RPL_ISUPPORT:
 			for (n = 0; n < RPL_ISUPPORT_LEN; n++) {
@@ -879,7 +879,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				server_change(1, 1);
 			}
 			break;
-			
+
 		/* Channel has no topic. */
 		case RPL_NOTOPIC:
 			/*
@@ -905,21 +905,21 @@ server_reply(const int command, char *original, char *origin, char *param1,
 			{
 				channel_type	*chptr;
 				char		*p;
-				
+
 				p = strchr(param2, ' ');
 				if (p != NULL) {
 					*p++ = '\0';
 				} else {
 					break;
 				}
-				
+
 				chptr = channel_find(param2, LIST_ACTIVE);
 				if (chptr != NULL) {
 					channel_topic(chptr, p);
 				}
 			}
 			break;
-		
+
 		/* Who set this topic ? */
 		case RPL_TOPICWHO:
 			/*
@@ -930,23 +930,23 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				channel_type	*chptr;
 				char		*p;
 				char		*topicwho;
-				
+
 				p = strchr(param2, ' ');
 				if (p != NULL) {
 					*p++ = '\0';
 				} else {
 					break;
 				}
-				
+
 				topicwho = p;
-				
+
 				p = strchr(topicwho, ' ');
 				if (p != NULL) {
 					*p++ = '\0';
 				} else {
 					break;
 				}
-				
+
 				chptr = channel_find(param2, LIST_ACTIVE);
 				if (chptr != NULL) {
 					channel_when(chptr, topicwho, p);
@@ -967,7 +967,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				*t = '\0';
 				channel = xstrdup(param2);
 				*t = ' ';
-				
+
 				parse_modes(channel, nextword(param2));
 				xfree(channel);
 			}
@@ -1034,7 +1034,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 		case ERR_BADCHANMASK:
 		case ERR_TOOMANYCHANNELS:
 		case ERR_UNAVAILRESOURCE:
-			/* 
+			/*
 			 * Look for channel and see if we're tryingto join it.
 			 */
 			work = xstrdup(param2);
@@ -1055,9 +1055,9 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				*pass = 0;
 			}
 			break;
-				
 
-			
+
+
 		/* Commands. */
 
 		/* Someone chaning nick. */
@@ -1122,7 +1122,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 
 					chanlog_write_entry(chptr, LOGM_KICK,
 							get_short_localtime(),
-							target, nick, 
+							target, nick,
 							nextword(param2) + 1);
 					xfree(target);
 				}
@@ -1170,7 +1170,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				automode_queue(nick, hostname, chptr);
 			}
 #endif /* ifdef AUTOMODE */
-	
+
 #ifdef CHANLOG
 			if (chanlog_has_log(chptr, LOG_JOIN)) {
 				chanlog_write_entry(chptr, LOGM_JOIN,
@@ -1190,7 +1190,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 				param1++;
 			}
 			chptr = channel_find(param1, LIST_ACTIVE);
-			/* 
+			/*
 			 * If we have sent PART (or JOIN 0) lets assume we
 			 * have parted those channels. This means that channel
 			 * entries of those channels are removed from
@@ -1267,7 +1267,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 			}
 
 			parse_modes(param1, param2);
-			
+
 #ifdef CHANLOG
 			if (chanlog_has_log(chptr, LOG_MODE)) {
 				chanlog_write_entry(chptr, LOGM_MODE,
@@ -1315,7 +1315,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 						(param2 + 1) ? param2 + 1 : "");
 			}
 #endif /* ifdef CHANLOG */
-			
+
 			break;
 
 		/* I hear someone talking... */
@@ -1370,7 +1370,7 @@ server_reply(const int command, char *original, char *origin, char *param1,
 					IRC_NICKINUSE : IRC_BADNICK);
 		}
 	} /* Command 000-999 */
-	
+
 #ifdef QUICKLOG
 	/* Perhaps we need to write something to quicklog. */
 	if ((c_clients.connected == 0 || cfg.flushqlog == 0) && *pass &&
@@ -1434,7 +1434,7 @@ parse_modes(const char *channel, const char *original)
 				 * This means if 'O' comes with no parameter,
 				 * we can pretty much safely ignore it.
 				 */
-				
+
 				if (ptr[0] == 'O' || param == NULL) {
 					break;
 				}
@@ -1479,7 +1479,7 @@ parse_modes(const char *channel, const char *original)
 				/* Even removing key needs parameter. */
 				param = strtok(NULL, " ");
 				break;
-				
+
 			case 'l':	/* Limit. */
 				/*
 				 * It's not like we would care, but we need

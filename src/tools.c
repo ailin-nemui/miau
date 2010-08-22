@@ -60,12 +60,12 @@ lowcase(char *str)
 /**
  * Generates a random string or new nick out of the old one.
  * @target:	Target. It *target != '\0', target will be treated as old nick.
- * 		If *target == '\0', completely random string will be created.
+ *		If *target == '\0', completely random string will be created.
  * @length:	(Maximum) length for target
  * @fillchar:	Character to use pad undersized target
  *
  * Target must have space for length + 1 characters.
- * 
+ *
  * This function doesn't work with multibyte characters.
  */
 void
@@ -73,7 +73,7 @@ randname(char *target, const size_t length, const char fillchar)
 {
 	size_t oldlen;
 	char shift;
-	
+
 	/* TODO paranoia */
 	if (target == NULL) {
 		/* No target - nothing to do. */
@@ -187,7 +187,7 @@ char *
 nextword(char *s)
 {
 	int i;
-	
+
 	i = pos(s, ' ');
 	if (i == -1) {
 		return NULL;
@@ -208,7 +208,7 @@ char *
 lastword(char *s)
 {
 	int i;
-	
+
 	i = lastpos(s, ' ');
 	if (i == -1) {
 		return s;

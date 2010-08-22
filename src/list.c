@@ -44,10 +44,10 @@ list_type *
 list_add_head(list_type *list, void *data)
 {
 	list_type *new;
-	
+
 	new = (list_type *) xmalloc(sizeof(list_type));
 	new->data = data;
-	
+
 	new->prev = NULL;
 	new->next = list;
 	if (list == NULL) {
@@ -73,12 +73,12 @@ list_type *
 list_add_tail(list_type *list, void *data)
 {
 	list_type *new;
-	
+
 	new = (list_type *) xmalloc(sizeof(list_type));
 	new->data = data;
-	
+
 	new->next = NULL;
-	
+
 	if (list == NULL) {
 		new->prev = NULL;
 		new->last = new;
@@ -113,10 +113,10 @@ list_insert_at(list_type *list, list_type *dest, void *data)
 	} else if (dest == NULL) {
 		return list_add_tail(list, data);
 	}
-	
+
 	new = (list_type *) xmalloc(sizeof(list_type));
 	new->data = data;
-	
+
 	new->prev = dest->prev;
 	new->next = dest;
 	dest->prev->next = new;
@@ -130,12 +130,12 @@ list_insert_at(list_type *list, list_type *dest, void *data)
 #ifdef USE_MOVE_TO
 /*
  * Insert a node to node in list.
- * @list: 	List to add data to
+ * @list:	List to add data to
  * @node:	Location where to insert. If node == list, node is added as
- * 		the first element of the list. If node == NULL, node will
- * 		be added to the end of list. First rule implies that new data
- * 		will be inserted before pos.
- * @data: 	Stuff to add
+ *		the first element of the list. If node == NULL, node will
+ *		be added to the end of list. First rule implies that new data
+ *		will be inserted before pos.
+ * @data:	Stuff to add
  *
  * Returns: Pointer to list
  */
@@ -154,7 +154,7 @@ list_insert_at(list_type *list, list_type *pos, void *data)
 	/* Inserting for real. Proceed. */
 	new = (list_type *) xmalloc(sizeof(llist_t));
 	new->data = data;
-	
+
 	new->prev = pos->prev;
 	new->next = pos;
 	pos->prev->next = new;
@@ -195,11 +195,11 @@ list_move_to(list_type *list, list_type *src, list_type *dest)
 
 /*
  * Insert a node to node in list (doesn't allocate memory).
- * @list: 	List to add data to
+ * @list:	List to add data to
  * @node:	Location where to insert. If node == list, node is added as
- * 		the first element of the list. If node == NULL, node will
- * 		be added to the end of list. First rule implies that new data
- * 		will be inserted before pos.
+ *		the first element of the list. If node == NULL, node will
+ *		be added to the end of list. First rule implies that new data
+ *		will be inserted before pos.
  *
  * Returns: Pointer to list
  */
@@ -213,7 +213,6 @@ insert_at_priv(list_type *list, list_type *pos, list_type *node)
 		return add_tail_priv(list, node);
 	}
 
-	
 	node->prev = pos->prev;
 	node->next = pos;
 	pos->prev->next = node;
@@ -318,7 +317,7 @@ list_move_first_to(list_type *list, list_type *dest)
 		/* Moving single item in list doesn't do anything. */
 		return list;
 	}
-	
+
 	moved = list;
 	new = list->next;
 	new->prev = NULL;

@@ -223,7 +223,7 @@ int
 sock_setreuse(int sock)
 {
 	int	i = 1;
-	
+
 	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (void *) &i,
 				sizeof(i)) < 0) {
 		net_errstr = strerror(errno);
@@ -267,10 +267,10 @@ sock_bind(int sock, char *bindhost, int port)
 {
 	/* We'd better cast &addr to void * to keep Digital-UNIX happy. */
 	memset((void *) &addr, 0, sizeof(struct sockaddr_in6));
-	
+
 	addr.sin6_addr = in6addr_any;
 	addr.sin6_family = AF_INET6;
-	
+
 	if (bindhost) {
 		if (! name_lookup(bindhost)) {
 			return 0;
@@ -302,7 +302,7 @@ sock_bindlookedup(int sock, int port)
 
 	addr.sin6_addr = in6addr_any;
 	addr.sin6_family = AF_INET6;
-	
+
 	if (hostinfo) {
 		memcpy((char *) &addr.sin6_addr, hostinfo->h_addr,
 				hostinfo->h_length);
@@ -310,7 +310,7 @@ sock_bindlookedup(int sock, int port)
 	}
 
 	addr.sin6_port = htons((u_short)port);
-	
+
 	if (bind(sock, (struct sockaddr *)&addr,
 				sizeof(struct sockaddr_in6)) < 0) {
 		net_errstr = strerror(errno);
@@ -330,20 +330,20 @@ sock_bind(int sock, char *bindhost, int port)
 
 	addr.sin_addr.s_addr = INADDR_ANY;
 	addr.sin_family = AF_INET;
-	
+
 	if (bindhost) {
 		if (name_lookup(bindhost) == NULL) {
 			return 0;
 		}
-		
+
 		memcpy((char *) &addr.sin_addr, hostinfo->h_addr,
 				hostinfo->h_length);
 		addr.sin_family = hostinfo->h_addrtype;
 	}
-	
+
 	addr.sin_port = htons((u_short) port);
-	
-	if (bind(sock, (struct sockaddr *) &addr, 
+
+	if (bind(sock, (struct sockaddr *) &addr,
 				sizeof(struct sockaddr)) < 0) {
 		net_errstr = strerror(errno);
 		return 0;
@@ -362,7 +362,7 @@ sock_bindlookedup(int sock, int port)
 
 	addr.sin_addr.s_addr = INADDR_ANY;
 	addr.sin_family = AF_INET;
-	
+
 	if (hostinfo) {
 		memcpy((char *) &addr.sin_addr, hostinfo->h_addr,
 				hostinfo->h_length);
@@ -370,13 +370,13 @@ sock_bindlookedup(int sock, int port)
 	}
 
 	addr.sin_port = htons((u_short) port);
-	
+
 	if (bind(sock, (struct sockaddr *) &addr,
 				sizeof(struct sockaddr)) < 0) {
 		net_errstr = strerror(errno);
 		return 0;
 	}
-	
+
 	return 1;
 } /* int sock_bindlookedup(int sock, int port) */
 
@@ -395,7 +395,7 @@ sock_listen(int sock)
 		net_errstr = strerror(errno);
 		return 0;
 	}
-	
+
 	return 1;
 } /* int sock_listen(int sock) */
 
@@ -451,7 +451,7 @@ sock_accept(int sock, char **s, int checkperm)
 #else
 	hostinfo = gethostbyaddr((char *) &addr.sin_addr.s_addr,
 			sizeof(struct in_addr), AF_INET);
-	
+
 	if (hostinfo) {
 		*s = xstrdup(hostinfo->h_name);
 		perm |= is_perm(&connhostlist, *s);
@@ -707,7 +707,7 @@ irc_notice(connection_type *connection, const char *nick,
 		const char *format, ...)
 {
 	va_list va;
-	
+
 	va_start(va, format);
 	irc_notice_va(connection, nick, format, va);
 	va_end(va);
@@ -720,9 +720,9 @@ irc_notice(connection_type *connection, const char *nick,
  * Read data.
  *
  * Return values:
- * 	-1	An error occured
- * 	0	No data
- * 	1	Received data
+ *	-1	An error occured
+ *	0	No data
+ *	1	Received data
  * Returns number of bytes received, -1 if there was an error.
  */
 int
@@ -788,7 +788,7 @@ irc_connect(connection_type *connection, server_type *server, char *nick,
 			return CONN_BIND;
 		}
 	}
-	
+
 	attempts = 15;
 	do {
 		/* random() here is totally safe */
@@ -802,7 +802,7 @@ irc_connect(connection_type *connection, server_type *server, char *nick,
 #endif
 		attempts--;
 	} while (! sock_bindlookedup(connection->socket, randport) && attempts);
-	
+
 	if (! attempts) {
 		return CONN_BIND;
 	}
@@ -822,7 +822,7 @@ irc_connect(connection_type *connection, server_type *server, char *nick,
 #else
 	memcpy((char *) &addr.sin_addr, hostinfo->h_addr, hostinfo->h_length);
 	addr.sin_port = htons((u_short) server->port);
-	
+
 	addr.sin_family = hostinfo->h_addrtype;
 	if (connect(connection->socket, (struct sockaddr *) &addr,
 				sizeof(struct sockaddr_in)) < 0) {
@@ -843,7 +843,7 @@ irc_connect(connection_type *connection, server_type *server, char *nick,
 	if (! sock_setnonblock(connection->socket)) {
 		return CONN_OTHER;
 	}
-	
+
 	return CONN_OK;
 } /* int irc_connect(connection_type *connection, server_type *server,
 		char *nickname, char *username, char *realname, char *bindto) */

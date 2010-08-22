@@ -69,7 +69,7 @@ report(char *format, ...)
 {
 	char	buffer[ERRBUFSIZE];
 	va_list	va;
-	
+
 	va_start(va, format);
 	vsnprintf(buffer, ERRBUFSIZE, format, va);
 	va_end(va);
@@ -93,7 +93,7 @@ error(char *format, ...)
 	vsnprintf(buffer, ERRBUFSIZE, format, va);
 	va_end(va);
 	buffer[ERRBUFSIZE - 1] = '\0';
-	
+
 	fprintf(stdout, "%s - %s\n", get_short_localtime(), buffer);
 #ifndef TESTING
 	irc_mnotice(&c_clients, status.nickname, "%s", buffer);

@@ -135,7 +135,7 @@ cfg_type cfg = {
 #endif /* ifdef PRIVLOG */
 
 	.nickfillchar = DEFAULT_NICKFILL,
-	
+
 #ifdef NEED_LOGGING
 	.logsuffix = NULL,	/* no log suffix */
 #endif /* ifdef NEED_LOGGING */
@@ -211,7 +211,7 @@ free_resources(void)
 #ifdef ONCONNECT
 	LLIST_EMPTY(onconnect_actions.head, &onconnect_actions);
 #endif /* ifdef ONCONNECT */
-	
+
 	FREE(cfg.username);
 	FREE(cfg.realname);
 	FREE(cfg.password);
@@ -328,7 +328,7 @@ escape(void)
 	xfree(i_newclient.nickname);
 	xfree(i_newclient.username);
 	xfree(i_newclient.hostname);
-	
+
 	/* We're done. */
 	error(MIAU_ERREXIT);
 } /* static void escape(void) */
@@ -342,7 +342,7 @@ static void
 read_cfg(void)
 {
 	int	ret;
-	
+
 	/* Set current server to point the fallback server. */
 	i_server.current = servers.servers.head;
 
@@ -354,7 +354,7 @@ read_cfg(void)
 		llist_delete(node, &servers.servers);
 	LLIST_WALK_F;
 	servers.amount = 1;
-	
+
 	/* Read configuration file. */
 	ret = parse_cfg(MIAURC);
 	if (ret == -1) {
@@ -582,7 +582,7 @@ dump_status(int a)
 		dump_add("    }"); dump_dump();
 	LLIST_WALK_F;
 	dump_dump();
-	
+
 	dump_string("passive_channels:");
 	LLIST_WALK_H(passive_channels.head, channel_type *);
 		dump_add("    {");
@@ -706,7 +706,7 @@ proceed_timer_safe(int *timer, const int warn, const int exceed,
 	if (repeat != 0 && *timer > warn && (*timer - warn) % repeat == 0) {
 		return 1;
 	}
-	
+
 	return 0;
 } /* static int proceed_timer_safe(int *timer, const int warn, const int exceed,
 		const int repeat) */
@@ -741,12 +741,12 @@ create_listen(void)
 
 		exit(ERR_CODE_NETWORK);
 	}
-	
+
 	if (! sock_listen(listensocket)) {
 		error(SOCK_ERRLISTEN);
 		exit(ERR_CODE_NETWORK);
 	}
-	
+
 	if (cfg.listenhost) {
 		report(SOCK_LISTENOKHOST, cfg.listenhost, cfg.listenport);
 	} else {
@@ -850,7 +850,7 @@ rehash(int sigparam)
 	/* Free non-must parameters. */
 	free_resources();
 	cfg.listenport = 0;
-	
+
 #ifdef CHANLOG
 	/* Close open logfiles. */
 	LLIST_WALK_H(active_channels.head, channel_type *);
@@ -858,7 +858,7 @@ rehash(int sigparam)
 	LLIST_WALK_F;
 	global_logtype = 0;	/* No logging by default. */
 #endif /* idef CHANLOG */
-	
+
 	/* Re-read miaurc and check results. */
 	read_cfg();
 	if (check_config() != 0) {
@@ -866,7 +866,7 @@ rehash(int sigparam)
 				status.nickname,
 				CLNT_MIAURCBEENWARNED);
 	}
-		
+
 
 	/*
 	 * realname, username, password and listenport are required and we want
@@ -877,7 +877,7 @@ rehash(int sigparam)
 	if (cfg.username == NULL) { cfg.username = xstrdup(oldusername); }
 	if (cfg.password == NULL) { cfg.password = xstrdup(oldpassword); }
 	if (cfg.listenport == 0) { cfg.listenport = oldlistenport; }
-	
+
 #ifdef CHANLOG
 	/* Open logs. */
 	LLIST_WALK_H(active_channels.head, channel_type *);
@@ -920,7 +920,7 @@ rehash(int sigparam)
 		status.got_nick = 0;
 		timers.nickname = cfg.getnickinterval;
 	}
-	
+
 	/* Next nick we try is the first one on the list. */
 	nicknames.next = NICK_FIRST;
 
@@ -959,7 +959,7 @@ rehash(int sigparam)
 		fclose(inbox);
 		inbox = NULL;
 	}
-	
+
 	/* We should start logging. */
 	if (cfg.inbox == 1 && inbox == NULL) {
 		inbox = fopen(FILE_INBOX, "a+");
@@ -972,7 +972,7 @@ rehash(int sigparam)
 	/* Reopen log-file. */
 	/*
 	 * Hmm, this doesn't work.
-	 * 
+	 *
 	if (! freopen(FILE_LOG, "a", stdout)) {
 		irc_mnotice(&c_clients, status.nickname, MIAU_ERRLOGCONN);
 		freopen("/dev/null", "a", stdout);
@@ -1024,7 +1024,7 @@ clients_left(const char *reason)
 	}
 
 	chans = (char *) xcalloc(1, 1);
-	
+
 	/*
 	 * When all clients have detached from miau...
 	 *
@@ -1081,7 +1081,7 @@ clients_left(const char *reason)
 		}
 		else
 #endif /* ifdef CHANLOG */
-		
+
 		/* We want to send an ACTION on each channel. */
 		if (! cfg.leave && cfg.leavemsg != NULL) {
 			channel = strtok(chans + 1, ",");
@@ -1099,7 +1099,7 @@ clients_left(const char *reason)
 			irc_write(&c_server, "PART %s :%s",
 					chans + 1, leavemsg);
 		}
-		
+
 		/* Ok, we just want to part channels. */
 		else if (cfg.leave && cfg.leavemsg == NULL) {
 			report(MIAU_LEAVING);
@@ -1137,7 +1137,7 @@ check_timers(void)
 		return;
 	}
 	oldtime = newtime;
-	
+
 	/*
 	 * If cfg.floodtimer second(s) have elapsed (since last allowance) allow
 	 * sending anohter message. Don't forget to limit the counter to
@@ -1183,12 +1183,12 @@ check_timers(void)
 		switch (proceed_timer_safe(&client_con->timer, 60, 120, 10)) {
 			case 0:
 				break;
-				
+
 			case 1:
 				irc_write(client_con, "PING :%s",
 						i_server.realname);
 				break;
-				
+
 			case 2:
 				/* (single client, message, error, echo, no) */
 				client_drop(client_con, CLNT_STONED,
@@ -1201,7 +1201,7 @@ check_timers(void)
 
 	if (c_clients.connected == 0) {
 		/* Client is not connected. Anti-idle. */
-		if (cfg.antiidle && proceed_timer(&timers.antiidle, 0, 
+		if (cfg.antiidle && proceed_timer(&timers.antiidle, 0,
 					cfg.antiidle * 60) == 2) {
 			irc_write(&c_server, "PRIVMSG");
 		}
@@ -1271,10 +1271,10 @@ check_timers(void)
 		/* Client is connecting... */
 		switch (proceed_timer(&c_newclient.timer, 0, 30)) {
 			case 0:
-				
+
 			case 1:
 				break;
-				
+
 			case 2:
 				if (status.init) {
 					error(CLNT_AUTHFAIL);
@@ -1353,7 +1353,7 @@ check_timers(void)
 		if (proceed_timer(&timers.join, 0, JOINTRYINTERVAL) == 2) {
 			channel_join_list(LIST_PASSIVE, 0, NULL);
 		}
-	}			
+	}
 
 	/* Handle forwarded messages. */
 	if (cfg.forwardmsg) {
@@ -1384,11 +1384,11 @@ check_timers(void)
 					/* redundant, but makes it clearer */
 					forwardmsgsize = 0;
 				}
-				
+
 				break;
 		}
 	}
-	
+
 #ifdef AUTOMODE
 	/* Act as op-o-matic. */
 	if (status.automodes > 0 && proceed_timer(&timers.automode,
@@ -1498,7 +1498,7 @@ get_nick(char *format)
 		/* Getting nick, increase sent NICK-command counter. */
 		status.getting_nick++;
 		irc_write(&c_server, "NICK %s", status.nickname);
-		
+
 		xfree(badnick);
 	}
 	status.got_nick = 0;
@@ -1568,7 +1568,7 @@ fakeconnect(connection_type *newclient)
 
 #ifdef ASCIIART
 	/* Print a pretty picture. */
-	
+
 	/* Cats sleep when they want to. */
 	pic = rand() % 2;
 
@@ -1620,7 +1620,7 @@ fakeconnect(connection_type *newclient)
 			xfree(i_client.nickname);
 			i_client.nickname = xstrdup(status.nickname);
 		}
-		
+
 		/*
 		 * And we were away and didn't have hand-set away-message,
 		 * remove away-status.
@@ -1641,7 +1641,7 @@ fakeconnect(connection_type *newclient)
 				status.nickname);
 	}
 
-	/* 
+	/*
 	 * Ok, client knows what's going on. If we're connected to server,
 	 * we have things to do, mister.
 	 */
@@ -1653,15 +1653,15 @@ fakeconnect(connection_type *newclient)
 		} else {
 			qlog = cfg.autoqlog;
 		}
-		
+
 		if (qlog > 0) {
 			qlog_check(qlog * 60);
 		}
 #endif /* QUICKLOG */
 
-		/* 
+		/*
 		 * First of all, join passive channels.
-		 * 
+		 *
 		 * Passive channels are channels that are either defined
 		 * in miaurc and are not yet joined or channels, that we
 		 * were on when clients detached.
@@ -1787,11 +1787,11 @@ read_newclient(void)
 	int t;
 
 	t = irc_read(&c_newclient);
-	
+
 	if (t <= 0) {
 		return t;
 	}
-	
+
 	c_newclient.buffer[30] = 0;
 	command = strtok(c_newclient.buffer, " ");
 	param = strtok(NULL, "\0");
@@ -1871,7 +1871,7 @@ read_newclient(void)
 
 		fakeconnect(newclient);
 
-		/* 
+		/*
 		 * Reporting number of connected clients
 		 * is irrevelant if only one is allowed at
 		 * a time.
@@ -2022,7 +2022,7 @@ miau_commands(char *command, char *param, connection_type *client)
 			minutes = keep % 60;
 			hours = (keep / 60) % 24;
 			days = keep / 1440;
-			
+
 			irc_notice(client, status.nickname, MIAU_FLUSHQLOG,
 					days, hours, minutes);
 		}
@@ -2055,7 +2055,7 @@ miau_commands(char *command, char *param, connection_type *client)
 	}
 #endif /* ifdef PINGSTAT */
 
-	
+
 #ifdef FAKECMD
 	/* Developement only. */
 	else if (xstrcmp(command, "FAKECMD") == 0) {
@@ -2094,17 +2094,17 @@ miau_commands(char *command, char *param, connection_type *client)
 	else if (xstrcmp(command, "UPTIME") == 0) {
 		time_t now;
 		int seconds, minutes, hours, days;
-		
+
 		corr++;
 		time(&now);
 		now -= status.startup;
 		getuptime(now, &days, &hours, &minutes, &seconds),
-		
+
 		irc_notice(client, status.nickname, MIAU_UPTIME,
 				days, hours, minutes, seconds);
 	}
 #endif /* ifdef UPTIME */
-	
+
 #ifdef DUMPSTATUS
 	else if (xstrcmp(command, "DUMP") == 0) {
 		corr++;
@@ -2156,7 +2156,6 @@ miau_commands(char *command, char *param, connection_type *client)
 			server_check_list();
 		}
 	}
-		
 
 	else if (xstrcmp(command, "DIE") == 0) {
 		/*
@@ -2165,7 +2164,7 @@ miau_commands(char *command, char *param, connection_type *client)
 		 * need it.
 		 */
 		char *reason;
-		
+
 		reason = (param == NULL) ?
 			xstrdup(MIAU_DIE_CL) : xstrdup(param);
 		/*
@@ -2268,7 +2267,7 @@ run(void)
 			/* Not connected to server. */
 			report(SERV_TRYING, server->name, server->port);
 			servers.fresh = 0;
-		
+
 			/* Assume we have our desired nick. */
 			xfree(status.nickname);
 			status.nickname = xstrdup((char *)
@@ -2293,18 +2292,18 @@ run(void)
 					/* Clear getting_nick -counter. */
 					status.getting_nick = 0;
 					break;
-	
+
 				case CONN_SOCK:
 					error(SOCK_ERROPEN, net_errstr);
 					exit(ERR_CODE_NETWORK);
 					break;
-			
+
 				case CONN_LOOKUP:
 					error(SOCK_ERRRESOLVE, server->name);
 					server_drop(NULL);
 					server_change(1, 1);
-					break;	
-			
+					break;
+
 				case CONN_BIND:
 					if (cfg.bind) {
 						error(SOCK_ERRBINDHOST,
@@ -2318,7 +2317,7 @@ run(void)
 					}
 					exit(ERR_CODE_NETWORK);
 					break;
-					
+
 				case CONN_CONNECT:
 					/*
 					 * If timer was triggered, socket is
@@ -2331,22 +2330,22 @@ run(void)
 					}
 					server_change(1, 1);
 					break;
-					
+
 				case CONN_WRITE:
 					error(SOCK_ERRWRITE, server->name);
 					server_drop(NULL);
 					server_change(1, 0);
 					break;
-			
+
 				case CONN_OTHER:
 					error(SOCK_GENERROR, net_errstr);
 					exit(ERR_CODE_NETWORK);
 					break;
-			
+
 				default:
 					break;
 			}
-			
+
 			alarm(0);		/* Disable alarm. */
 			timers.connect = 0;
 		}
@@ -2381,7 +2380,7 @@ run(void)
 			dcc_socketsubscribe(&rfds, &wfds);
 		}
 #endif /* ifdef DCCBOUNCE */
-	
+
 		tv.tv_usec = 0;
 		tv.tv_sec = 1;
 
@@ -2406,7 +2405,7 @@ run(void)
 				if (c_newclient.socket != -1) {
 					c_newclient.offset = 0;
 					i_newclient.connected = 1;
-					
+
 					report(CLNT_CAUGHT,
 							i_newclient.hostname);
 				}
@@ -2472,7 +2471,7 @@ run(void)
 			}
 #endif /* ifdef DCCBOUNCE */
 		}
-		
+
 		check_timers();
 	}
 } /* static void run(void) */
@@ -2602,7 +2601,7 @@ check_config(void)
 {
 	int err = 0;
 #define REPORTERROR(x) { error(PARSE_MK, x); err++; }
-	
+
 	if (nicknames.nicks.head == NULL)	REPORTERROR("nicknames");
 	if (cfg.realname == NULL)		REPORTERROR("realname");
 	if (cfg.username == NULL)		REPORTERROR("username");
@@ -2611,7 +2610,7 @@ check_config(void)
 	if (connhostlist.list.head == NULL)	REPORTERROR("connhosts");
 	/*
 	 * Actually, we did we do this?
-	 * 
+	 *
 	if (! cfg.listenhost && cfg.bind) cfg.listenhost = xstrdup(cfg.bind);
 	 */
 
@@ -2672,7 +2671,7 @@ static void
 setup_atexit(void)
 {
 	int r;
-	
+
 	r = atexit(escape);
 	if (r != 0) {
 		error(ERR_CANT_ATEXIT);
@@ -2718,7 +2717,7 @@ main(int argc, char **argv)
 					char salt[3];
 					char *pass;
 					char *crypted;
-				
+
 					salt[0] = '\0';
 					srand(time(NULL));
 					randname(salt, 2, ' ');
@@ -2797,7 +2796,7 @@ main(int argc, char **argv)
 			error(MIAU_ERRFORK);
 			exit(EXIT_FAILURE);
 		}
-		
+
 		if (pid == 0) {
 			/*
 			 * Redirect stdout in file unless requested
@@ -2806,7 +2805,7 @@ main(int argc, char **argv)
 			 */
 			if (cfg.statelog == 1) {
 				FILE *f;
-				
+
 				f = freopen(FILE_LOG, "a", stdout);
 				if (f == NULL) {
 					error(MIAU_ERRFILE, cfg.home);
@@ -2833,7 +2832,7 @@ main(int argc, char **argv)
 
 			run();
 		}
-	
+
 		else {		/* pid != 0 */
 			pidfile = fopen(FILE_PID, "w");
 			if (pidfile == NULL) {
@@ -2843,7 +2842,7 @@ main(int argc, char **argv)
 			}
 			fprintf(pidfile, "%d\n", pid);
 			fclose(pidfile);
-			
+
 			report(MIAU_NICK, (char *) nicknames.nicks.head->data);
 			report(MIAU_FORKED, pid);
 		}

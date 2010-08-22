@@ -75,7 +75,7 @@ open_log(privlog_type *log)
  * Writes entry in logfile.
  *
  * "nick" declares who we are talking with.
- * 
+ *
  * If file isn't open already, open file first.
  * (Logfiles are closed periodically in miau.c)
  */
@@ -85,7 +85,7 @@ privlog_write(const char *nick, int in_out, int cmd, const char *message)
 	const char *active;
 	char *t;
 	int newentry;
-	
+
 	privlog_type *line;
 
 	newentry = 0;
@@ -107,7 +107,7 @@ privlog_write(const char *nick, int in_out, int cmd, const char *message)
 		line->file = NULL;
 		line->filename = NULL;
 	}
-	
+
 	/* If file is closed, open it. */
 	if (line->file == NULL) {
 		open_log(line);
@@ -211,7 +211,7 @@ privlog_close_old(void)
 	time_t loggrace;
 	close = time(NULL) - PRIVLOG_TIME_OPEN;
 	loggrace = time(NULL) - PRIVLOG_TIME_GRACE;
-	
+
 	LLIST_WALK_H(open_logs.head, privlog_type *);
 		if (data->updated < loggrace) {
 			finalize_log(data);

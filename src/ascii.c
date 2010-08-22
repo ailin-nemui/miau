@@ -29,7 +29,7 @@
  * at least if we believe HP-UX 2.x's (linker) ld.
  */
 
-char pics[2][PIC_Y][PIC_X] = 
+char pics[2][PIC_Y][PIC_X] =
 {
 { "    |\\      _,,,---,,_      ",
   "    /,`.-'`'    -.  ;-;;,_  ",

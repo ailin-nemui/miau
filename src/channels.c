@@ -36,12 +36,12 @@
 
 /*
  * active_channels
- * 	miau is on these channels
+ *	miau is on these channels
  *
  * passive_channels
- * 	miau will be on these channels.
- * 	For example, if cfg.leave == cfg.rejoin == true, active_channels are
- * 	moved to passive_channels when client detached.
+ *	miau will be on these channels.
+ *	For example, if cfg.leave == cfg.rejoin == true, active_channels are
+ *	moved to passive_channels when client detached.
  *
  * old_channels
  *	miau was on these channels - and they still contain some
@@ -105,8 +105,8 @@ channel_add(const char *channel, const char *key, const int list)
 			return NULL;
 		}
 	}
-	
-	/* 
+
+	/*
 	 * We must do this to keep old GCC (and probably some other compilers
 	 * too) happy.
 	 *
@@ -131,7 +131,7 @@ channel_add(const char *channel, const char *key, const int list)
 	 */
 	if (list == LIST_ACTIVE) {
 		llist_list *source;
-		
+
 		/* find a list to remove from */
 		source = NULL;
 		chptr = channel_find(channel, LIST_PASSIVE);
@@ -188,7 +188,7 @@ channel_add(const char *channel, const char *key, const int list)
 #ifdef AUTOMODE
 		chptr->oper = -1;		/* Don't know our status. */
 #endif /* AUTOMODE */
-	
+
 		/* Get list on which to add this channel to. */
 		if (list == LIST_ACTIVE) {
 			target = &active_channels;
@@ -206,7 +206,7 @@ channel_add(const char *channel, const char *key, const int list)
 	 *   - channel is only on one list
 	 *   - chptr is non-NULL
 	 */
-	
+
 	if (list == LIST_ACTIVE) {
 		/* adding to ACTIVE -> we know real name of the channel */
 		if (chptr->name_set == 0) {
@@ -244,7 +244,7 @@ channel_rem(channel_type *chptr, const int list)
 {
 	llist_list	*source;
 	llist_node	*node;
-	
+
 	if (list == LIST_ACTIVE) {
 		source = &active_channels;
 #ifdef QUICKLOG
@@ -255,7 +255,7 @@ channel_rem(channel_type *chptr, const int list)
 		source = (list == LIST_PASSIVE) ?
 			&passive_channels : &old_channels;
 	}
-	
+
 	/* Only remove existing channels. :-) */
 	if (chptr == NULL) {
 #ifdef ENDUSERDEBUG
@@ -344,12 +344,12 @@ channel_find(const char *name, int list)
 			bmatch = chan;
 		}
 	}
-	
+
 	xfree(sname);
 	if (bmatch != NULL) {
 		return bmatch;
 	}
-	
+
 	/* no match found */
 	return NULL;
 } /* channel_type *channel_find(char *name, int list) */
@@ -385,7 +385,7 @@ channel_when(channel_type *chan, const char *who, const char *when)
 	if (chan->topic != NULL) {
 		xfree(chan->topicwho);
 		xfree(chan->topicwhen);
-	
+
 		chan->topicwho = xstrdup(who);
 		chan->topicwhen = xstrdup(when);
 	}
@@ -435,7 +435,7 @@ channel_join_list(const int list, const int rejoin, connection_type *client)
 	chans = (char *) xcalloc(csize, 1);
 	keys = (char *) xcalloc(ksize, 1);
 	tclen = tklen = 1;
-	
+
 	LLIST_WALK_H(first, channel_type *);
 		if (list == LIST_PASSIVE) {
 			if ((rejoin == 1 || (cfg.rejoin == 1 && cfg.leave == 0))
@@ -456,7 +456,7 @@ channel_join_list(const int list, const int rejoin, connection_type *client)
 					}
 				}
 			}
-			
+
 			if (data->jointries > 0) {
 				size_t clen, klen;
 				try_joining = 1;
@@ -537,7 +537,7 @@ channel_join_list(const int list, const int rejoin, connection_type *client)
 		report(rejoin ? MIAU_REINTRODUCE : MIAU_JOINING, chans + 1);
 		irc_write(&c_server, "JOIN %s %s", chans + 1, keys + 1);
 	}
-	
+
 	xfree(chans);
 	xfree(keys);
 } /* void channel_join_list(const int, const int, connection_type *) */
@@ -553,7 +553,7 @@ channel_simplify_name(const char *chan)
 	} else {
 		size_t len;
 		char *name;
-		
+
 		len = strlen(chan);
 		if (len < 6) {
 #ifdef ENDUSERDEBUG
@@ -561,7 +561,7 @@ channel_simplify_name(const char *chan)
 #endif /* ifdef ENDUSERDEBUG */
 			return xstrdup(chan); /* some weird channel */
 		}
-		
+
 		/* safe channel */
 		len -= 4; /* original length - 5 + terminator */
 		name = (char *) xmalloc(len);

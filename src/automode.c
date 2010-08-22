@@ -78,7 +78,7 @@ automode_do(void)
 			tlen = 1;
 			memset(modes, 0, sizeof(modes)); /* clear modes */
 			count = 0;
-		
+
 			/* Commit three modes at a time. */
 			LLIST_WALK_H(channel->mode_queue.head, automode_type *);
 				modes[count] = data->mode;
@@ -114,7 +114,7 @@ automode_do(void)
 						modes,
 						nicks);
 			}
-		
+
 			/* Clear mode-queue as there are all now processed. */
 			automode_clear(&data->mode_queue);
 		} /* if (channel->oper == 1) */
@@ -159,7 +159,7 @@ automode_queue(const char *nick, const char *hostname, channel_type *channel)
 			status.automodes++;
 		}
 	}
-	
+
 	xfree(mask);
 } /* void automode_queue(const char *, const char *, channel_type *) */
 

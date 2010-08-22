@@ -64,7 +64,7 @@ typedef struct {
 	int	allowreply;
 	int	reconnectdelay;	/* Time before next try to connection. */
 	int	autojoindone;	/* Joined cfg.channels once ? */
-	char 	*awaymsg;	/* Current away-message, NULL is not away. */
+	char	*awaymsg;	/* Current away-message, NULL is not away. */
 	int	awaystate;	/* User-set away-message. */
 	int	good_server;	/* This server is recognized as "good". */
 #ifdef UPTIME

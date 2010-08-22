@@ -186,7 +186,7 @@ cmd_join(char *par0, char *par1)
 	char *key;	/* channel key */
 	char *chanseek;
 	char *keyseek;
-	
+
 	if (par0 != NULL && xstrcmp(par0, "0") == 0) {
 		/* user want to leave all channels */
 		LLIST_WALK_H(passive_channels.head, channel_type *);
@@ -268,7 +268,7 @@ cmd_privmsg(char *par0, char *par1)
 	if (is_chan == 0) {
 		/*
 		 * We could say
-		 * 
+		 *
 		if ((c_clients.connected > 0 && (cfg.privlog & 0x02))
 				|| (c_clients.connected == 0
 					&& cfg.privlog == PRIVLOG_DETACHED)) {
@@ -278,7 +278,7 @@ cmd_privmsg(char *par0, char *par1)
 		 * Therefore we say the following instead:
 		 */
 		if (cfg.privlog != 0) {
-			privlog_write(par0, PRIVLOG_OUT, 
+			privlog_write(par0, PRIVLOG_OUT,
 					CMD_PRIVMSG + MINCOMMANDVALUE,
 					par1 + 1);
 		}

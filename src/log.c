@@ -46,7 +46,7 @@ log_cannot_write(const char *file)
 	if (warned_already == 1) {
 		return;
 	}
-	
+
 	report(MIAU_LOGNOWRITE, file);
 
 	warned_already = 1;

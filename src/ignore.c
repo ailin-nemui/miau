@@ -61,7 +61,7 @@ ignore_add(const char *hostname, int ttl, int type)
 			return;
 		}
 	}
-	
+
 	ignores.data = (ignore_type **) table_add_item((void **) ignores.data,
 			sizeof(ignore_type), &ignores.amount, &indx);
 	ignores.data[indx]->hostname = xstrdup(hostname);

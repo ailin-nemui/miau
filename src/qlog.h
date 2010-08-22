@@ -28,7 +28,7 @@
 
 
 
-#ifdef QLOGSTAMP 
+#ifdef QLOGSTAMP
 #define TS_TYPES	"nbe"
 #define TS_NONE		0
 #define TS_BEGINNING	1

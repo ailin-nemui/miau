@@ -113,7 +113,7 @@ dcc_bouncedata(int a, int b, int *wrflag)
 {
 	static char	buffer[2048];
 	int		rret, wret;
-	
+
 	rret = (int) recv(a, buffer, 2048, MSG_PEEK);
 	if (rret <= 0) {
 		if (errno == EAGAIN) {
@@ -136,7 +136,7 @@ dcc_bouncedata(int a, int b, int *wrflag)
 	if (wret != rret) {
 		*wrflag = 0;
 	}
-	
+
 	return 1;
 } /* int dcc_bouncedata(int a, int b, int *wrflag) */
 
@@ -203,7 +203,7 @@ void
 dcc_socketsubscribe(fd_set *readset, fd_set *writeset)
 {
 	int	i;
-	
+
 	for (i = 0; i < dccs.amount; i++) {
 		if (dccs.data[i] == NULL) {
 			continue;
@@ -220,7 +220,7 @@ dcc_socketsubscribe(fd_set *readset, fd_set *writeset)
 		if (dccs.data[i]->dest && ! dccs.data[i]->dest_wa) {
 			FD_SET(dccs.data[i]->dest, writeset);
 		}
-		
+
 		if (dccs.data[i]->connected && ! dccs.data[i]->src_wa) {
 			FD_SET(dccs.data[i]->src, writeset);
 		}
@@ -280,7 +280,7 @@ dcc_socketcheck(fd_set *readset, fd_set *writeset)
 				xfree(host);
 				continue;
 			}
-			
+
 			else {
 				dccs.data[i]->dest_wa = 1;
 #ifdef DEBUG
@@ -331,7 +331,7 @@ dcc_socketcheck(fd_set *readset, fd_set *writeset)
 				}
 			}
 		}
-		
+
 		if (dccs.data[i]->connected &&
 				FD_ISSET(dccs.data[i]->dest, readset)) {
 #ifdef DEBUG
@@ -361,9 +361,9 @@ dcc_initiate(char *param, size_t dsize, int fromclient)
 
 	dparam = xstrdup(param);
 	chop = dparam;
-	
+
 	dcc.fromclient = fromclient;
-	
+
 #define DCCINITNULLRETURN { xfree(dparam); return NULL; }
 
 	while ((chop = strchr(chop, ' ')) != NULL && *(++chop) != '\0') {
@@ -413,7 +413,7 @@ dcc_initiate(char *param, size_t dsize, int fromclient)
 	}
 
 	xfree(dparam);
-	
+
 	return param;;
 } /* char *dcc_initiate(char *param, size_t n, int fromclient) */
 
@@ -465,7 +465,7 @@ dcc_realinitiate(char *dest, size_t dsize, dcccommand *dcc)
 	do {
 		myport = (random() & 0xffff) | 1024;
 	} while (! sock_bind(dccs.data[dccindex]->src, NULL, myport) && --i);
-	
+
 	if (! i) {
 		error(SOCK_GENERROR, "unable to bind to any port");
 		dcc_killbounce(dccindex);
@@ -473,7 +473,7 @@ dcc_realinitiate(char *dest, size_t dsize, dcccommand *dcc)
 	}
 
 	dccs.data[dccindex]->srcport = myport;
-	
+
 	if (! sock_listen(dccs.data[dccindex]->src)) {
 		error(SOCK_ERRLISTEN);
 		dcc_killbounce(dccindex);
@@ -499,7 +499,7 @@ dcc_realinitiate(char *dest, size_t dsize, dcccommand *dcc)
 			host->h_length);
 	dccs.data[dccindex]->destaddr.sin_port = htons((u_short) port);
 	dccs.data[dccindex]->destaddr.sin_family = (short) host->h_addrtype;
-	
+
 	report(DCC_START, inet_ntoa(*(struct in_addr *) &address), port,
 			dccindex);
 
@@ -545,7 +545,7 @@ dcc_resume(char *dest, size_t dsize, dcccommand *dcc)
 			}
 		}
 	}
-	
+
 	return 0;
 } /* static int dcc_resume(char *dest, size_t dsize, dcccommand *dcc) */
 

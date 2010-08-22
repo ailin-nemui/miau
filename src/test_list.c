@@ -400,7 +400,7 @@ test_list_move_first_to_first(
 		)
 {
 	list_type *list;
-	
+
 	TEST_INIT("list_move_first_to (first)", "testing");
 	list = create_testing();
 
@@ -418,7 +418,7 @@ test_list_move_first_to_middle(
 {
 	list_type *list;
 	list_type *ptr;
-	
+
 	TEST_INIT("list_move_first_to (middle)", "tsitneg");
 /*	TEST_INIT("list_move_first_to (middle)", "estitng"); */
 	list = create_testing();
@@ -442,7 +442,7 @@ test_list_move_first_to_last(
 		)
 {
 	list_type *list;
-	
+
 	TEST_INIT("list_move_first_to (last)", "tingtes");
 	list = create_testing();
 
@@ -466,17 +466,17 @@ test_list_speed(
 	int t;
 	int r;
 	list_type *list;
-	
+
 	list = NULL;
 	m = l = r = 0;
 	srand((unsigned int) s);
-	
+
 	while (n > r) {
 		t = rand() & 0xff;
 		if (n < r) {
 			r = n;
 		}
-		
+
 		if (rand() & 1) {
 			l += t;
 			if (l > m) {
@@ -516,7 +516,7 @@ main(
 		test_list_speed(atoi(argv[1]), atoi(argv[2]));
 		return 0;
 	}
-	
+
 	test_list_add_head();
 	test_list_add_tail();
 
@@ -531,7 +531,7 @@ main(
 	test_list_insert_at_first();
 	test_list_insert_at_last();
 	test_list_insert_at_middle();
-	
+
 #ifdef USE_MOVE_TO
 	test_list_insert_at();
 	test_list_move_to_first_to();

@@ -258,7 +258,7 @@ qlog_add_timestamp(qlogentry *entry, char *buf, size_t size)
 /* TSLEN: "[HH:MM:SS]\0" == 11 */
 #define TSLEN 11
 	char stamp[TSLEN];
-	
+
 	/* attach tag only if we know what we're doing */
 	p = nextword(entry->text);
 	if (p == NULL) {
@@ -311,7 +311,7 @@ qlog_add_timestamp(qlogentry *entry, char *buf, size_t size)
 					entry->text, rep, stamp, p + 1);
 			buf[size - 1] = '\0';
 			*p = rep;
-			
+
 			return buf;
 		}
 
@@ -461,7 +461,7 @@ qlog_get_channel(const char *msg)
 	if (l == -1) {
 		return NULL;
 	}
-	
+
 	t = (char *) xmalloc(l + 1);
 	memcpy(t, b + 1, l);
 	t[l] = '\0';

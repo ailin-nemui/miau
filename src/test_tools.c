@@ -12,7 +12,7 @@ main(
 	/* upcase() && lowcase() */
 	{
 	char foo[64];
-	
+
 	sprintf(foo, "foobar");
 	printf("Before case-conversion: '%s'\n", foo);
 	upcase(foo);
@@ -60,14 +60,14 @@ main(
 	/* pos() && lastpos() */
 	{
 	char foo[64];
-	
+
 	sprintf(foo, "There is no greater power in the universe than "
 			"the need for freedom.");
 	printf("String: '%s'\n", foo);
 	printf("First occurance of 'o' is at %d\n", pos(foo, 'o'));
 	printf("Last occurance of 'o' is at %d\n", lastpos(foo, 'o'));
 	}
-	
+
 	/* nextword() && lastword() */
 	{
 	char foo[64];
@@ -94,7 +94,7 @@ main(
 	printf("Short: '%s'\n", get_timestamp(NULL, TIMESTAMP_SHORT));
 	printf("Abritary: '%s'\n", get_timestamp(&t, TIMESTAMP_LONG));
 	}
-	
+
 
 	return 0;
 }
