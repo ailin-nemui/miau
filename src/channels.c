@@ -515,7 +515,7 @@ channel_join_list(const int list, const int rejoin, connection_type *client)
 						data->topic :
 						":No topic is set"));
 			if (data->topicwho != NULL && data->topicwhen != NULL) {
-				irc_write(client, "%s %d %s %s %s %s",
+				irc_write(client, ":%s %d %s %s %s %s",
 						i_server.realname,
 						RPL_TOPICWHO,
 						status.nickname,

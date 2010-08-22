@@ -1,11 +1,12 @@
 miau (0.6.6) unstable; urgency=low
 
-  * Fixed handling of NICK commands on servers running InspIRCD.
+  * Fixed RPL_TOPICWHO syntax. Oops.
   * Fixed memory leak with channel keys.
   * Fixed chanlog/privlog with user's ACTION when DCC-bouncing is compiled in.
+  * Fixed handling of NICK commands on servers running InspIRCD.
   * Cleaned up source.
 
- -- Tommi Saviranta <wnd@iki.fi>  Tue, 18 Nov 2008 11:48:21 +0200
+ -- Tommi Saviranta <wnd@iki.fi>  Sun, 22 Aug 2010 11:50:36 +0300
 
 miau (0.6.5) unstable; urgency=low
 
