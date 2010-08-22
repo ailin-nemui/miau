@@ -480,17 +480,18 @@ dcc_realinitiate(char *dest, size_t dsize, dcccommand *dcc)
 		return 0;
 	}
 
-	snprintf(dest, dsize, "\1DCC %s %s %u %u", dcc->type, dcc->arg1,
-			(unsigned int) ntohl(*(unsigned long int *)
-					     host->h_addr),
-			myport);
-	dest[dsize - 1] = '\0';
-
 	if (dcc->argc == 5) {
-		snprintf(dest, dsize, "%s %u\1", dest, dcc->args[2]);
-	}
-	else {
-		strcat(dest, "\1");
+		snprintf(dest, dsize, "\1DCC %s %s %u %u %u\1",
+				dcc->type, dcc->arg1,
+				(unsigned int)
+				ntohl(*(unsigned long int *) host->h_addr),
+				myport, dcc->args[2]);
+	} else {
+		snprintf(dest, dsize, "\1DCC %s %s %u %u\1",
+				dcc->type, dcc->arg1,
+				(unsigned int)
+				ntohl(*(unsigned long int *) host->h_addr),
+				myport);
 	}
 	dest[dsize - 1] = '\0';
 
