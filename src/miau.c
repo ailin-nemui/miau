@@ -151,7 +151,6 @@ cfg_type cfg = {
 	.awaymsg = NULL,	/* no default */
 	.forwardmsg = NULL,	/* no default */
 	.forwardtime = 180,	/* 180 seconds */
-	.channels = NULL,	/* no default */
 	.home = NULL,		/* no default */
 	.usermode = NULL,	/* no default */
 
@@ -222,9 +221,7 @@ free_resources(void)
 	FREE(cfg.awaymsg);
 	FREE(cfg.leavemsg);
 	FREE(cfg.listenhost);
-	FREE(cfg.channels);
 	FREE(cfg.forwardmsg);
-	FREE(cfg.channels);
 #ifdef DCCBOUNCE
 	FREE(cfg.dccbindhost);
 #endif /* ifdef DCCBOUNCE */
@@ -537,7 +534,6 @@ dump_status(int a)
 	dump_status_int("allowconnect", status.allowconnect);
 	dump_status_int("allowreply", status.allowreply);
 	dump_status_int("reconnectdelay", status.reconnectdelay);
-	dump_status_int("autojoindone", status.autojoindone);
 	dump_status_char("away", status.awaymsg);
 	dump_status_int("awaystate", status.awaystate);
 	dump_status_int("good_server", status.good_server);
@@ -2548,7 +2544,6 @@ init(void)
 
 	umask(~S_IRUSR & ~S_IWUSR);	/* For logfile(s). */
 
-	status.autojoindone = 0;	/* Haven't joined cfg.channels yet. */
 	status.awaymsg = NULL;		/* No non-default away message. */
 	status.awaystate = 0;		/* No custom awaymsg | not away. */
 

@@ -63,7 +63,6 @@ typedef struct {
 	int	allowconnect;
 	int	allowreply;
 	int	reconnectdelay;	/* Time before next try to connection. */
-	int	autojoindone;	/* Joined cfg.channels once ? */
 	char	*awaymsg;	/* Current away-message, NULL is not away. */
 	int	awaystate;	/* User-set away-message. */
 	int	good_server;	/* This server is recognized as "good". */
@@ -158,7 +157,6 @@ typedef struct {
 	char	*awaymsg;
 	char	*forwardmsg;
 	int	forwardtime;
-	char	*channels;
 	char	*home;
 	char	*usermode;	/* User modes. Set on connect. */
 	int	no_identify_capab; /* suppress request of "CAPAB IDENTIFY-*" */
