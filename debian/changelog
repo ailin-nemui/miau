@@ -1,8 +1,9 @@
 miau (0.6.7) UNRELEASED; urgency=medium
 
+  * Code clean up.
   * Minor optimisations to miau-check.
 
- -- Tommi Saviranta <wnd@iki.fi>  Tue, 24 Dec 2013 11:38:16 +0200
+ -- Tommi Saviranta <wnd@iki.fi>  Tue,  5 Oct 2014 10:52:33 +0300
 
 miau (0.6.6) unstable; urgency=low
 
