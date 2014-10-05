@@ -80,11 +80,10 @@ server_drop(char *reason)
 
 	if (c_server.socket) {
 		char buf[IRC_MSGLEN];
-		int r;
 
 		snprintf(buf, IRC_MSGLEN, "QUIT :%s\r\n", reason);
 		buf[IRC_MSGLEN - 1] = '\0';
-		r = sock_setblock(c_server.socket);
+		sock_setblock(c_server.socket);
 		irc_write_real(&c_server, buf);
 #ifdef CHANLOG
 		chanlog_write_entry_all(LOG_QUIT, LOGM_QUIT,

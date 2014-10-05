@@ -704,8 +704,6 @@ parse_list_line(char *data)
 
 			/* CFG_CHANNELS only has effect at start up. */
 			if (virgin == 1) {
-				channel_type *channel;
-
 				if (param[0] == NULL || param[0][0] == '\0') {
 					break;
 				}
@@ -729,8 +727,7 @@ parse_list_line(char *data)
 				}
 
 				/* channel_add will set up us a key. */
-				channel = channel_add(param[0],
-						param[1], LIST_PASSIVE);
+				channel_add(param[0], param[1], LIST_PASSIVE);
 			}
 			ok = 1;
 			break;
