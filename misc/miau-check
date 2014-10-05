@@ -8,23 +8,31 @@
 # This will check for a running miau every 10 minutes.
 #
 
-# Try to use locally installed miau if possible
-MIAUBIN="$HOME/miau/miau"
-test -f "$MIAUBIN" -a -x "$MIAUBIN" || MIAUBIN=miau
-
 # If miau can't be found automatically, you must define the location here
 # MIAUBIN=/somewhere/else/miau
 
-echo $MIAUBIN
+test "$1"       && MIAUDIR="$1"
+test "$MIAUDIR" || MIAUDIR="$HOME/.miau"
+if ! test -d "$MIAUDIR"; then
+	echo "miau direcory not defined or found!"
+	exit 1
+fi
 
-cd "$HOME/.miau/"
-if test -r pid; then
-	PID=`cat pid`
-	if `kill -USR1 $PID >/dev/null 2>&1`; then
-		exit 0
-	fi
-	rm -f pid
+test "$2" && MIAUBIN="$2"
+test ! "$MIAUBIN" -a -x "$MIAUDIR/miau" && MIAUBIN="$MIAUDIR/miau"
+test ! "$MIAUBIN" -a -x "$HOME/miau/miau" && MIAUBIN="$HOME/miau/miau"
+test ! "$MIAUBIN" -a -x "/usr/bin/miau" && MIAUBIN="/usr/bin/miau"
+test ! "$MIAUBIN" -a -x "miau" && MIAUBIN="miau"
+if ! test "$MIAUBIN"; then
+	echo "miau binary not found or defined!"
+	exit 1
+fi
+
+if test -r "$MIAUDIR/pid"; then
+	PID="$(cat "$MIAUDIR/pid")"
+	kill -0 "$PID" >/dev/null 2>&1 && exit 0
+	rm -f "$MIAUDIR/pid"
 fi
 echo "Starting miau..."
-"$MIAUBIN"
-exit 0
+"$MIAUBIN" -d "$miaudir"
+exit $?
