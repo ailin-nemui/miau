@@ -626,7 +626,7 @@ parse_privmsg(char *param1, char *param2, char *nick, char *hostname,
 int
 server_read(void)
 {
-	char	*backup = NULL;
+	char	*backup = NULL, *ptr;
 	char	*origin, *command, *param1, *param2;
 	int	rstate;
 	int	pass = 0;
@@ -646,10 +646,17 @@ server_read(void)
 	pass = 1;
 
 	backup = xstrdup(c_server.buffer);
+	if (c_server.buffer[0] == '@') {
+		char *tmp = strchr(c_server.buffer, ' ');
+		ptr = tmp == NULL ? c_server.buffer : tmp + 1;
+	} else {
+		ptr = c_server.buffer;
+	}
 
-	if (c_server.buffer[0] == ':') {
+
+	if (ptr[0] == ':') {
 		/* reply */
-		origin = strtok(c_server.buffer + 1, " ");
+		origin = strtok(ptr + 1, " ");
 		command = strtok(NULL, " ");
 		param1 = strtok(NULL, " ");
 		param2 = strtok(NULL, "\0");
@@ -672,7 +679,7 @@ server_read(void)
 
 	else {
 		/* Command */
-		command = strtok(c_server.buffer, " ");
+		command = strtok(ptr, " ");
 		param1 = strtok(NULL, "\0");
 
 		if (command) {
